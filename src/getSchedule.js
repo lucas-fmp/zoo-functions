@@ -36,11 +36,21 @@ const weekDayParameter = (day) => {
   return obj;
 };
 
-// eslint-disable-next-line max-lines-per-function
+const arrayOfAnimals = (day) => {
+  const animals = [];
+  if (day !== undefined) {
+    species.forEach((animal) => {
+      if (animal.availability.includes(day)) {
+        animals.push(animal.name);
+      }
+    });
+  }
+  return animals;
+};
+
 const otherParameters = () => {
   const obj = {};
-  const animals = [];
-  weekDays.forEach((day) => {
+  weekDays.forEach((day, index) => {
     if (day === 'Monday') {
       obj[day] = {
         officeHour: 'CLOSED', exhibition: 'The zoo will be closed!',
@@ -49,7 +59,7 @@ const otherParameters = () => {
     }
     obj[day] = {
       officeHour: `Open from ${data.hours[day].open}am until ${data.hours[day].close}pm`,
-      exhibition: animals,
+      exhibition: arrayOfAnimals(day),
     };
   });
   return obj;
@@ -64,7 +74,5 @@ function getSchedule(scheduleTarget) {
   }
   return otherParameters();
 }
-
-console.log(getSchedule());
 
 module.exports = getSchedule;
