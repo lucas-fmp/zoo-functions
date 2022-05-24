@@ -2,7 +2,7 @@ const data = require('../data/zoo_data');
 
 const { species } = data;
 
-const emptyParameter = (animal) => {
+const emptyParameter = () => {
   const returnedObject = {};
   const names = species.map((element) => element.name);
   const quantity = species.map((element2) => element2.residents.length);
@@ -41,7 +41,7 @@ const speciesAndSex = (animal) => {
 
 function countAnimals(...animal) {
   if (animal.length === 0) {
-    return emptyParameter(animal);
+    return emptyParameter();
   }
   if (Object.keys(animal[0]).length === 1) {
     return justSpecies(animal);
