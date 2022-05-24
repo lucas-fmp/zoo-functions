@@ -50,7 +50,7 @@ const arrayOfAnimals = (day) => {
 
 const otherParameters = () => {
   const obj = {};
-  weekDays.forEach((day, index) => {
+  weekDays.forEach((day) => {
     if (day === 'Monday') {
       obj[day] = {
         officeHour: 'CLOSED', exhibition: 'The zoo will be closed!',
