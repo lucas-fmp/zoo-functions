@@ -2,9 +2,9 @@ const data = require('../data/zoo_data');
 
 const { employees, species } = data;
 const employeeInfos = {};
-const animals = [];
 
 const arrayOfSpecies = (arrayOfIds) => {
+  const animals = [];
   species.forEach((animal) => {
     arrayOfIds.forEach((Id) => {
       if (animal.id.includes(Id)) {
@@ -37,10 +37,13 @@ const getEmployeeByName = (obj) => {
       employeeInfos.id = employee.id;
       employeeInfos.fullName = `${employee.firstName} ${employee.lastName}`;
       employeeInfos.species = arrayOfSpecies(employee.responsibleFor);
-      employeeInfos.locations = arrayOfLocations(animals);
+      employeeInfos.locations = arrayOfLocations(arrayOfSpecies(employee.responsibleFor));
     }
   });
-  return employeeInfos;
+  if (Object.keys(employeeInfos).length !== 0) {
+    return employeeInfos;
+  }
+  throw new Error('Informações inválidas');
 };
 
 const getEmployeeById = ((obj) => {
@@ -49,21 +52,45 @@ const getEmployeeById = ((obj) => {
       employeeInfos.id = employee.id;
       employeeInfos.fullName = `${employee.firstName} ${employee.lastName}`;
       employeeInfos.species = arrayOfSpecies(employee.responsibleFor);
-      employeeInfos.locations = arrayOfLocations(animals);
+      employeeInfos.locations = arrayOfLocations(arrayOfSpecies(employee.responsibleFor));
     }
   });
+  if (Object.keys(employeeInfos).length === 0) {
+    throw new Error('Informações inválidas');
+  }
   return employeeInfos;
 });
 
-function getEmployeesCoverage(obj) {
+const getAllEmployees = () => {
+  const arrayyy = [];
+  employees.forEach((employee) => {
+    const objetooo = {
+      id: employee.id,
+      fullName: `${employee.firstName} ${employee.lastName}`,
+      species: arrayOfSpecies(employee.responsibleFor),
+      locations: arrayOfLocations(arrayOfSpecies(employee.responsibleFor)),
+    };
+    arrayyy.push(objetooo);
+  });
+  return arrayyy;
+};
+
+const getEmployeeByIdOrName = (obj) => {
   if (Object.keys(obj).includes('name')) {
     return getEmployeeByName(obj);
   }
   if (Object.keys(obj).includes('id')) {
     return getEmployeeById(obj);
   }
+};
+
+function getEmployeesCoverage(obj) {
+  if (obj !== undefined) {
+    return getEmployeeByIdOrName(obj);
+  }
+  return getAllEmployees();
 }
 
-console.log(getEmployeesCoverage({ name: 'Spry' }));
+// getEmployeesCoverage({ id: 'Id inválido' });
 
 module.exports = getEmployeesCoverage;
