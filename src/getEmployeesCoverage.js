@@ -40,10 +40,12 @@ const getEmployeeByName = (obj) => {
       employeeInfos.locations = arrayOfLocations(arrayOfSpecies(employee.responsibleFor));
     }
   });
-  if (Object.keys(employeeInfos).length !== 0) {
-    return employeeInfos;
+  try {
+    if (Object.keys(employeeInfos).length !== 0) return employeeInfos;
+    throw new Error('Informações inválidas');
+  } catch (error) {
+    throw error.message;
   }
-  throw new Error('Informações inválidas');
 };
 
 const getEmployeeById = ((obj) => {
@@ -55,10 +57,12 @@ const getEmployeeById = ((obj) => {
       employeeInfos.locations = arrayOfLocations(arrayOfSpecies(employee.responsibleFor));
     }
   });
-  if (Object.keys(employeeInfos).length === 0) {
+  try {
+    if (Object.keys(employeeInfos).length !== 0) return employeeInfos;
     throw new Error('Informações inválidas');
+  } catch (error) {
+    throw error.message;
   }
-  return employeeInfos;
 });
 
 const getAllEmployees = () => {
@@ -91,6 +95,6 @@ function getEmployeesCoverage(obj) {
   return getAllEmployees();
 }
 
-// getEmployeesCoverage({ id: 'Id inválido' });
+getEmployeesCoverage({ id: 'Id inválido' });
 
 module.exports = getEmployeesCoverage;
