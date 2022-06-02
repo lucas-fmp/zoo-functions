@@ -23,7 +23,7 @@ function getAnimalsLocations(employeeResponsibleFor) {
 const filterByNameOrId = (obj, allEmployees) => {
   const selectedEmployee = allEmployees
     .filter((employee) => employee.fullName.includes(obj.name) || employee.id.includes(obj.id));
-    return selectedEmployee;
+  return selectedEmployee;
 };
 
 function getEmployeesCoverage(obj) {
