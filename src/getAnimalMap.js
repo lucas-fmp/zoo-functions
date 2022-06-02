@@ -1,69 +1,34 @@
 const { species } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
-const getAllAnimals = () => {
-  const NE = [];
-  const NW = [];
-  const SE = [];
-  const SW = [];
-  species.forEach((specie) => {
-    if (specie.location === 'NE') NE.push(specie.name);
-    if (specie.location === 'NW') NW.push(specie.name);
-    if (specie.location === 'SE') SE.push(specie.name);
-    if (specie.location === 'SW') SW.push(specie.name);
-  });
-  return { NE, NW, SE, SW };
+const animalMap = {
+  NE: species.filter((specie) => specie.location === 'NE').map((specie) => specie.name),
+  NW: species.filter((specie) => specie.location === 'NW').map((specie) => specie.name),
+  SE: species.filter((specie) => specie.location === 'SE').map((specie) => specie.name),
+  SW: species.filter((specie) => specie.location === 'SW').map((specie) => specie.name),
 };
 
-const includeNamesNE = (NE, specie) => {
-  const auxObj = {};
-  auxObj[specie.name] = specie.residents.map((animal) => animal.name);
-  NE.push(auxObj);
-  return NE;
-};
-
-const includeNamesNW = (NW, specie) => {
-  const auxObj = {};
-  auxObj[specie.name] = specie.residents.map((animal) => animal.name);
-  NW.push(auxObj);
-  return NW;
-};
-
-const includeNamesSE = (SE, specie) => {
-  const auxObj = {};
-  auxObj[specie.name] = specie.residents.map((animal) => animal.name);
-  SE.push(auxObj);
-  return SE;
-};
-
-const includeNamesSW = (SW, specie) => {
-  const auxObj = {};
-  auxObj[specie.name] = specie.residents.map((animal) => animal.name);
-  SW.push(auxObj);
-  return SW;
-};
-
-const animalsIncludingName = () => {
-  const NE = [];
-  const NW = [];
-  const SE = [];
-  const SW = [];
-  species.forEach((specie) => {
-    if (specie.location === 'NE') return includeNamesNE(NE, specie);
-    if (specie.location === 'NW') return includeNamesNW(NW, specie);
-    if (specie.location === 'SE') return includeNamesSE(SE, specie);
-    if (specie.location === 'SW') return includeNamesSW(SW, specie);
-  });
-  return { NE, NW, SE, SW };
-};
-
-function getAnimalMap(options) {
-  if (options === undefined || !Object.keys(options)
-    .includes('includeNames')) return getAllAnimals();
-  if (Object.keys(options).includes('includeNames')
-  && Object.keys(options).length === 1) return animalsIncludingName();
+function includeNames(animalMapWithoutNames) {
+  const arrayNEIncludingNames = () => {
+    animalMapWithoutNames.NE.forEach((element) => {
+      const newObj = {
+        [element]: species
+          .filter((specie) => specie.name === element)
+          .map((animal) => animal.residents),
+      };
+      console.log(newObj);
+    });
+  };
+  arrayNEIncludingNames();
+  animalMap.NE = 'oi';
+  return animalMap;
 }
 
-console.log(getAnimalMap({ includeNames: true }));
+function getAnimalMap(options) {
+  if (options === undefined) return animalMap;
+  if (options.includeNames) return includeNames(animalMap);
+}
+
+console.log(getAnimalMap({ includeNames: 'oi' }));
 
 module.exports = getAnimalMap;

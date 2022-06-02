@@ -20,6 +20,12 @@ function getAnimalsLocations(employeeResponsibleFor) {
   return animalsLocation;
 }
 
+const filterByNameOrId = (obj, allEmployees) => {
+  const selectedEmployee = allEmployees
+    .filter((employee) => employee.fullName.includes(obj.name) || employee.id.includes(obj.id));
+    return selectedEmployee;
+};
+
 function getEmployeesCoverage(obj) {
   const allEmployees = data.employees.map((employee) => {
     const employeeInfo = {
@@ -32,9 +38,9 @@ function getEmployeesCoverage(obj) {
   });
   if (obj === undefined) return allEmployees;
   if (obj.id || obj.name) {
-    const selectedEmployee = allEmployees
-      .filter((employee) => employee.fullName.includes(obj.name) || employee.id.includes(obj.id));
-    if (selectedEmployee[0] !== undefined) return selectedEmployee[0];
+    if (filterByNameOrId(obj, allEmployees)[0] !== undefined) {
+      return filterByNameOrId(obj, allEmployees)[0];
+    }
     throw new Error('Informações inválidas');
   }
 }
