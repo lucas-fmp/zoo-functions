@@ -1,34 +1,133 @@
 const { species } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
-const animalMap = {
-  NE: species.filter((specie) => specie.location === 'NE').map((specie) => specie.name),
-  NW: species.filter((specie) => specie.location === 'NW').map((specie) => specie.name),
-  SE: species.filter((specie) => specie.location === 'SE').map((specie) => specie.name),
-  SW: species.filter((specie) => specie.location === 'SW').map((specie) => specie.name),
-};
+const NE = species.filter((specie) => specie.location === 'NE');
+const NW = species.filter((specie) => specie.location === 'NW');
+const SE = species.filter((specie) => specie.location === 'SE');
+const SW = species.filter((specie) => specie.location === 'SW');
 
-function includeNames(animalMapWithoutNames) {
-  const arrayNEIncludingNames = () => {
-    animalMapWithoutNames.NE.forEach((element) => {
-      const newObj = {
-        [element]: species
-          .filter((specie) => specie.name === element)
-          .map((animal) => animal.residents),
-      };
-      console.log(newObj);
-    });
+function animalsNames() {
+  const object = {
+    NE: NE.map((animalObj) => animalObj.name),
+    NW: NW.map((animalObj) => animalObj.name),
+    SE: SE.map((animalObj) => animalObj.name),
+    SW: SW.map((animalObj) => animalObj.name),
   };
-  arrayNEIncludingNames();
-  animalMap.NE = 'oi';
-  return animalMap;
+  return object;
+}
+
+function includeNamesOnly() {
+  const object = {
+    NE: NE
+      .map((animalObj) => ({ [animalObj.name]: animalObj.residents
+        .map((resident) => resident.name) })),
+    NW: NW
+      .map((animalObj) => ({ [animalObj.name]: animalObj.residents
+        .map((resident) => resident.name) })),
+    SE: SE
+      .map((animalObj) => ({ [animalObj.name]: animalObj.residents
+        .map((resident) => resident.name) })),
+    SW: SW
+      .map((animalObj) => ({ [animalObj.name]: animalObj.residents
+        .map((resident) => resident.name) })),
+  };
+  return object;
+}
+
+function sortedMale() {
+  const object = {
+    NE: NE.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'male').map((resident) => resident.name).sort() })),
+    NW: NW.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'male').map((resident) => resident.name).sort() })),
+    SE: SE.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'male').map((resident) => resident.name).sort() })),
+    SW: SW.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'male').map((resident) => resident.name).sort() })),
+  };
+  return object;
+}
+
+function sortedFemale() {
+  const object = {
+    NE: NE.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'female').map((resident) => resident.name).sort() })),
+    NW: NW.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'female').map((resident) => resident.name).sort() })),
+    SE: SE.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'female').map((resident) => resident.name).sort() })),
+    SW: SW.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'female').map((resident) => resident.name).sort() })),
+  };
+  return object;
+}
+
+function male() {
+  const object = {
+    NE: NE.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'male').map((resident) => resident.name) })),
+    NW: NW.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'male').map((resident) => resident.name) })),
+    SE: SE.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'male').map((resident) => resident.name) })),
+    SW: SW.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'male').map((resident) => resident.name) })),
+  };
+  return object;
+}
+
+function female() {
+  const object = {
+    NE: NE.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'female').map((resident) => resident.name) })),
+    NW: NW.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'female').map((resident) => resident.name) })),
+    SE: SE.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'female').map((resident) => resident.name) })),
+    SW: SW.map((animalObj) => ({ [animalObj.name]: animalObj.residents
+      .filter((animal) => animal.sex === 'female').map((resident) => resident.name) })),
+  };
+  return object;
+}
+
+function includeNamesSortedAndSex(options) {
+  if (options.sex === 'male') return sortedMale();
+  return sortedFemale();
+}
+
+function includeNamesSex(options) {
+  if (options.sex === 'male') return male();
+  return female();
+}
+
+function includeNamesSorted() {
+  const object = {
+    NE: NE
+      .map((animalObj) => ({ [animalObj.name]: animalObj.residents
+        .map((resident) => resident.name).sort() })),
+    NW: NW
+      .map((animalObj) => ({ [animalObj.name]: animalObj.residents
+        .map((resident) => resident.name).sort() })),
+    SE: SE
+      .map((animalObj) => ({ [animalObj.name]: animalObj.residents
+        .map((resident) => resident.name).sort() })),
+    SW: SW
+      .map((animalObj) => ({ [animalObj.name]: animalObj.residents
+        .map((resident) => resident.name).sort() })),
+  };
+  return object;
+}
+
+function includeNames(options) {
+  if (options.sorted && options.sex) return includeNamesSortedAndSex(options);
+  if (options.sex) return includeNamesSex(options);
+  if (options.sorted) return includeNamesSorted();
+  return includeNamesOnly();
 }
 
 function getAnimalMap(options) {
-  if (options === undefined) return animalMap;
-  if (options.includeNames) return includeNames(animalMap);
+  if (!options || !options.includeNames) return animalsNames();
+  return includeNames(options);
 }
-
-console.log(getAnimalMap({ includeNames: 'oi' }));
 
 module.exports = getAnimalMap;
